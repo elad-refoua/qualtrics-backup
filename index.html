@@ -1,0 +1,763 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>גיבוי קוולטריקס — גיבוי מקומי מלא של כל השאלונים והתשובות | Qualtrics Backup Tool</title>
+<meta name="description" content="כלי חינמי למעבדות מחקר: גיבוי מקומי מלא של כל שאלון בחשבון קוולטריקס — מבנה, תשובות ותצוגה קריאה — בפורמטים פתוחים. קורא בלבד, הטוקן בזיכרון בלבד, הכל נשאר במחשב שלכם.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230a5fd0'/%3E%3Cpath d='M16 7v12M10.5 14.5 16 20l5.5-5.5M9 24h14' stroke='%23fff' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round' fill='none'/%3E%3C/svg%3E">
+<style>
+  :root {
+    --bg: #f6f5f1;
+    --card: #ffffff;
+    --ink: #1c2433;
+    --muted: #5b6472;
+    --accent: #0a5fd0;
+    --accent-dark: #084aa5;
+    --accent-soft: #e8f0fc;
+    --navy: #1c2b4a;
+    --navy-2: #2a3f6e;
+    --line: #e4e1d8;
+    --ok: #14713d;
+    --warn-bg: #fdf6e3;
+    --warn-border: #e6c884;
+    --danger: #a52a21;
+    --danger-bg: #fbeeec;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: "Segoe UI", system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif;
+    font-size: 17px;
+    line-height: 1.65;
+  }
+  .container { max-width: 980px; margin: 0 auto; padding: 0 22px; }
+
+  code, .file {
+    direction: ltr; unicode-bidi: embed;
+    font-family: Consolas, "Courier New", monospace;
+    font-size: 0.86em;
+    background: #f0efe9;
+    border: 1px solid var(--line);
+    border-radius: 5px;
+    padding: 1px 7px;
+    white-space: nowrap;
+    color: #333;
+  }
+  a { color: var(--accent); }
+  strong { color: inherit; }
+
+  /* ---------- hero ---------- */
+  .hero {
+    background: linear-gradient(140deg, var(--navy) 20%, var(--navy-2) 100%);
+    color: #fff;
+    padding: 58px 0 54px;
+  }
+  .hero .badge {
+    display: inline-block;
+    font-size: 0.82em;
+    letter-spacing: 0.02em;
+    background: rgba(255,255,255,0.13);
+    border: 1px solid rgba(255,255,255,0.3);
+    border-radius: 30px;
+    padding: 5px 16px;
+    margin: 0 0 22px;
+  }
+  .hero h1 {
+    margin: 0 0 14px;
+    font-size: clamp(2.1rem, 5.5vw, 3.1rem);
+    line-height: 1.15;
+    letter-spacing: -0.01em;
+  }
+  .hero .tagline {
+    margin: 0;
+    max-width: 660px;
+    font-size: clamp(1.05rem, 2.4vw, 1.22rem);
+    line-height: 1.6;
+    opacity: 0.94;
+  }
+  .cta { margin-top: 30px; display: flex; flex-wrap: wrap; align-items: center; gap: 18px; }
+  .dl-btn {
+    display: inline-block;
+    background: #fff;
+    color: var(--navy);
+    font-weight: 700;
+    font-size: 1.12em;
+    text-decoration: none;
+    padding: 14px 34px;
+    border-radius: 9px;
+    box-shadow: 0 3px 14px rgba(0,0,0,0.3);
+  }
+  .dl-btn:hover { background: #eef3fb; }
+  .dl-btn .arrow { font-weight: 400; }
+  .dl-meta { font-size: 0.92em; opacity: 0.92; line-height: 1.5; }
+  .dl-meta b { font-weight: 600; }
+  .sha {
+    margin: 14px 0 0;
+    font-size: 0.74em;
+    opacity: 0.75;
+    direction: ltr;
+    text-align: right;
+    font-family: Consolas, monospace;
+    word-break: break-all;
+    max-width: 640px;
+  }
+  .trust { list-style: none; display: flex; flex-wrap: wrap; gap: 10px 22px; padding: 0; margin: 30px 0 0; }
+  .trust li {
+    font-size: 0.9em;
+    padding-inline-start: 22px;
+    position: relative;
+    opacity: 0.95;
+  }
+  .trust li::before {
+    content: "✓";
+    position: absolute;
+    inset-inline-start: 0;
+    color: #7fd8a5;
+    font-weight: 700;
+  }
+
+  /* ---------- 10 seconds strip ---------- */
+  .strip { background: var(--card); border-bottom: 1px solid var(--line); }
+  .strip .container { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; padding-top: 22px; padding-bottom: 22px; }
+  .strip .s { display: flex; gap: 12px; align-items: flex-start; font-size: 0.95em; }
+  .strip .n {
+    flex: 0 0 30px; width: 30px; height: 30px; border-radius: 50%;
+    background: var(--accent-soft); color: var(--accent-dark);
+    font-weight: 700; display: flex; align-items: center; justify-content: center;
+    font-size: 0.9em;
+  }
+  .strip p { margin: 2px 0 0; line-height: 1.5; }
+
+  /* ---------- sections ---------- */
+  section { padding: 62px 0 8px; }
+  .kicker {
+    font-size: 0.78em;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    color: var(--accent);
+    margin: 0 0 6px;
+  }
+  h2 { margin: 0 0 10px; font-size: clamp(1.45rem, 3.4vw, 1.9rem); line-height: 1.25; }
+  .lead { margin: 0 0 26px; color: var(--muted); max-width: 700px; }
+
+  .card {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 26px 30px;
+    margin-bottom: 20px;
+  }
+  .card h3 { margin: 0 0 10px; font-size: 1.12em; }
+
+  /* file list */
+  .files { display: grid; grid-template-columns: 250px 1fr; border-top: 1px solid var(--line); }
+  .files > div { padding: 11px 4px; border-bottom: 1px solid var(--line); }
+  .files .fname { font-weight: 600; }
+  .files .fdesc { color: #333; }
+  .files .fdesc small { color: var(--muted); }
+
+  /* screenshots */
+  figure { margin: 26px 0; }
+  figure img {
+    width: 100%; height: auto; display: block;
+    border: 1px solid var(--line); border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(28,36,51,0.08);
+    background: #fff;
+  }
+  figcaption { font-size: 0.86em; color: var(--muted); margin-top: 9px; line-height: 1.5; }
+  .shots2 { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; }
+  .shots2 figure { margin: 0; }
+  .shots-row { margin-top: 26px; margin-bottom: 6px; }
+
+  /* steps */
+  ol.steps { padding-inline-start: 22px; margin: 12px 0 0; }
+  ol.steps li { margin: 10px 0; }
+  ul.plain { padding-inline-start: 22px; margin: 10px 0 0; }
+  ul.plain li { margin: 8px 0; }
+
+  .os-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  .os-grid .card { margin-bottom: 0; }
+  .os-tag {
+    display: inline-block; font-size: 0.78em; font-weight: 700;
+    background: var(--accent-soft); color: var(--accent-dark);
+    border-radius: 5px; padding: 2px 10px; margin-bottom: 8px;
+  }
+
+  .note {
+    background: var(--warn-bg);
+    border: 1px solid var(--warn-border);
+    border-radius: 8px;
+    padding: 12px 18px;
+    font-size: 0.94em;
+    margin-top: 14px;
+  }
+  .warning {
+    background: var(--danger-bg);
+    border: 1.5px solid #dfa39d;
+    border-radius: 10px;
+    padding: 16px 20px;
+    margin-top: 16px;
+  }
+  .warning b.t { color: var(--danger); }
+
+  .use-grid { display: grid; grid-template-columns: 3fr 2fr; gap: 28px; align-items: start; }
+  .use-grid figure { margin: 0; }
+
+  /* v2 cards */
+  .v2-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  .v2-grid .card { margin-bottom: 0; }
+  .v2-grid .card h3 { color: var(--accent-dark); }
+
+  /* troubleshooting table */
+  table.tbl { border-collapse: collapse; width: 100%; font-size: 0.95em; background: var(--card); border: 1px solid var(--line); border-radius: 10px; overflow: hidden; }
+  table.tbl th { background: var(--navy); color: #fff; text-align: start; padding: 10px 16px; font-weight: 600; }
+  table.tbl td { padding: 11px 16px; border-top: 1px solid var(--line); vertical-align: top; }
+
+  /* FAQ */
+  details.faq {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 4px 22px;
+    margin-bottom: 12px;
+  }
+  details.faq summary {
+    cursor: pointer;
+    font-weight: 600;
+    padding: 12px 0;
+    list-style-position: inside;
+  }
+  details.faq[open] summary { border-bottom: 1px solid var(--line); margin-bottom: 8px; }
+  details.faq p, details.faq ul { margin: 8px 0 14px; }
+
+  /* english */
+  .english { direction: ltr; text-align: left; }
+  .english .kicker { letter-spacing: 0.14em; }
+  .english .card p { margin: 10px 0; }
+
+  /* bottom cta */
+  .bottom-cta {
+    background: var(--navy);
+    color: #fff;
+    border-radius: 14px;
+    padding: 34px 36px;
+    margin-top: 50px;
+    display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 20px;
+  }
+  .bottom-cta h2 { margin: 0 0 6px; font-size: 1.35em; }
+  .bottom-cta p { margin: 0; opacity: 0.9; font-size: 0.95em; }
+
+  footer {
+    margin-top: 60px;
+    border-top: 1px solid var(--line);
+    padding: 30px 0 44px;
+    color: var(--muted);
+    font-size: 0.9em;
+    text-align: center;
+  }
+  footer .sha-f { direction: ltr; font-family: Consolas, monospace; font-size: 0.82em; word-break: break-all; margin-top: 8px; }
+
+  @media (max-width: 760px) {
+    body { font-size: 16px; }
+    .strip .container { grid-template-columns: 1fr; gap: 14px; }
+    .files { grid-template-columns: 1fr; }
+    .files .fname { border-bottom: none; padding-bottom: 0; }
+    .files .fdesc { padding-top: 2px; }
+    .shots2, .os-grid, .v2-grid, .use-grid { grid-template-columns: 1fr; }
+    .card { padding: 20px 18px; }
+    .bottom-cta { padding: 26px 22px; }
+    table.tbl { font-size: 0.88em; }
+    table.tbl td, table.tbl th { padding: 9px 10px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ======================= HERO ======================= -->
+<header class="hero">
+  <div class="container">
+    <p class="badge">גרסה 2.0 · עודכן 16.07.2026 · חינם לשימוש מחקרי</p>
+    <h1>גיבוי קוולטריקס</h1>
+    <p class="tagline">
+      גיבוי מקומי מלא של <strong>כל</strong> השאלונים בחשבון הקוולטריקס שלכם —
+      המבנה, כל התשובות ותצוגה קריאה של כל שאלון — בפורמטים פתוחים שנפתחים בכל
+      דפדפן, בלי אינטרנט ובלי קוולטריקס.
+    </p>
+    <div class="cta">
+      <a class="dl-btn" href="qualtrics_backup_shiny.zip" download>הורדת הכלי (ZIP)&nbsp;<span class="arrow">&#8595;</span></a>
+      <div class="dl-meta">
+        <b>גרסה 2.0</b> &nbsp;·&nbsp; נבנה 16.07.2026 &nbsp;·&nbsp; <span dir="ltr">85 KB</span><br>
+        עובד ב-Windows וב-Mac &nbsp;·&nbsp; דורש רק את R (חינם)
+      </div>
+    </div>
+    <p class="sha">SHA-256: d207925f2cd82f1735e0f3e5dc77abe9e449ffed794c2f1d2c2fe7fba3167bc6</p>
+    <ul class="trust">
+      <li>קורא בלבד — לא משנה ולא מוחק שום דבר בחשבון</li>
+      <li>הטוקן נשמר בזיכרון בלבד — אף פעם לא בקובץ</li>
+      <li>הכל נשאר במחשב שלכם — שום דבר לא מועלה לענן</li>
+    </ul>
+  </div>
+</header>
+
+<!-- ======================= 10-SECOND STRIP ======================= -->
+<div class="strip">
+  <div class="container">
+    <div class="s"><span class="n">1</span><p>מורידים את ה-ZIP ומחלצים (קליק ימני ובוחרים <span dir="ltr">Extract All</span>).</p></div>
+    <div class="s"><span class="n">2</span><p>מתקינים R (חד-פעמי) ולוחצים פעמיים על <span class="file">Run Me (Windows).cmd</span> (במק: <span class="file">Run Me (Mac-Linux).command</span>).</p></div>
+    <div class="s"><span class="n">3</span><p>מדביקים את הטוקן, לוחצים <span dir="ltr">Test connection</span> ואז <span dir="ltr">Start backup</span> — והכל אצלכם במחשב.</p></div>
+  </div>
+</div>
+
+<!-- ======================= WHAT YOU GET ======================= -->
+<section id="what-you-get">
+  <div class="container">
+    <p class="kicker">01 · מה מקבלים</p>
+    <h2>תיקייה אחת לכל שאלון — עם כל מה שתצטרכו אי-פעם</h2>
+    <p class="lead">
+      הכלי מוריד לכל שאלון את הנתונים, את המבנה המלא ואת התצוגה — כך שגם אם
+      קוולטריקס תיעלם מחר, לא איבדתם כלום: לא את התשובות, לא את השאלון עצמו,
+      ולא את הלוגיקה של מי ראה מה.
+    </p>
+
+    <div class="card">
+      <div class="files">
+        <div class="fname"><span class="file">preview.html</span></div>
+        <div class="fdesc">השאלון כפי שהנבדקים ראו אותו — נפתח בכל דפדפן, נראה כמו קוולטריקס, עובד בלי אינטרנט. נפתח בחלק של Survey Flow (מה הוצג למי), ואחריו השאלות. כפתור בדף מציג מידע טכני (מזהי שאלות, קודי תשובות).</div>
+        <div class="fname"><span class="file">preview.docx</span></div>
+        <div class="fdesc">אותה תצוגה כמסמך Word (כולל חלק ה-Survey Flow) — נוח להדפסה ולשליחה.</div>
+        <div class="fname"><span class="file">responses_numeric.csv / .rds</span></div>
+        <div class="fdesc">התשובות כמספרים — ל-SPSS / R / Excel. שורה לכל נבדק.</div>
+        <div class="fname"><span class="file">responses_labels.csv / .xlsx</span></div>
+        <div class="fdesc">התשובות כטקסט שהנבדקים באמת סימנו. קובץ ה-.xlsx נפתח נקי באקסל, כולל עברית.</div>
+        <div class="fname"><span class="file">survey.qsf</span></div>
+        <div class="fdesc"><strong>קובץ השחזור.</strong> בקוולטריקס: <span dir="ltr">Create New Project &gt; Survey &gt; Import a QSF file</span> — והשאלון חוזר, ניתן לעריכה, גם אם המקור נמחק.</div>
+        <div class="fname"><span class="file">codebook.csv / .xlsx</span></div>
+        <div class="fdesc">איזה מספר בנתונים = איזו תשובה.</div>
+        <div class="fname"><span class="file">questions.csv / .xlsx</span></div>
+        <div class="fdesc">שורה אחת לכל שאלה — דרך מהירה לסרוק את השאלון.</div>
+        <div class="fname"><span class="file">survey_flow.json / .txt</span></div>
+        <div class="fdesc">ה-Flow של השאלון: כל הסתעפות, תנאי, רנדומיזציה ומשתנה מוטמע. ה-json הוא העותק המדויק כפי שקוולטריקס שומרת; ה-txt כתוב בשפה פשוטה ומוזח — "מי ראה מה".</div>
+        <div class="fname"><span class="file">display_logic.csv</span></div>
+        <div class="fdesc">שורה לכל שאלה שהופיעה רק בתנאי מסוים (או שהפעילה דילוג), עם התנאי כתוב במפורש.</div>
+        <div class="fname"><span class="file">survey_portable.json</span></div>
+        <div class="fdesc">השאלון בפורמט פתוח ופשוט — לשחזור מחוץ לקוולטריקס (REDCap, LimeSurvey...).</div>
+        <div class="fname"><span class="file">migration_notes.md</span></div>
+        <div class="fdesc">פיצ'רים ייחודיים לקוולטריקס (piped text, הסתעפויות, JavaScript) שידרשו טיפול ידני במעבר פלטפורמה.</div>
+        <div class="fname"><span class="file">metadata.json</span></div>
+        <div class="fdesc">פרטי השאלון כפי שקוולטריקס שומרת אותם — כולל ספירת התשובות (<span dir="ltr">responsecounts</span>): הדרך המהירה לבדוק כמה תשובות קיימות לשאלון.</div>
+        <div class="fname"><span class="file">NO_RESPONSES.txt</span></div>
+        <div class="fdesc">מופיע במקום קבצי התשובות כשלשאלון פשוט אין אף תשובה מוקלטת. <small>לא אבד כלום — לא היה מה להוריד.</small></div>
+        <div class="fname"><span class="file">MISSING_RESPONSES_README.txt</span></div>
+        <div class="fdesc">מופיע רק אם הורדת התשובות נכשלה: מה חסר, כמה תשובות קיימות בקוולטריקס, ומה עושים (בדרך כלל: השאלון בבעלות חשבון אחר — מגבים עם הטוקן של הבעלים).</div>
+      </div>
+      <p style="margin:16px 0 0; color: var(--muted); font-size: 0.94em;">
+        ובנוסף, לכל ריצת גיבוי: <span class="file">_index.html</span> — דף אינדקס לחיץ עם כל השאלונים,
+        קישורים לכל הקבצים ומילון מונחים מלא בשפה פשוטה — וקובץ
+        <span class="file">_responses_summary.txt</span> שמסכם בדיוק אילו תשובות גובו.
+      </p>
+    </div>
+
+    <div class="shots2 shots-row">
+      <figure>
+        <a href="assets/preview_top.jpg" target="_blank" rel="noopener"><img src="assets/preview_top.jpg" alt="צילום מסך: preview.html — שאלון בעברית כפי שהנבדקים ראו אותו, נפתח בדפדפן בלי אינטרנט" loading="lazy" width="1000" height="760" style="cursor:zoom-in"></a>
+        <figcaption><span class="file">preview.html</span> — השאלון כפי שהנבדקים ראו אותו. נפתח בכל דפדפן, בלי אינטרנט ובלי קוולטריקס. <em>לחצו להגדלה.</em></figcaption>
+      </figure>
+      <figure>
+        <a href="assets/preview_tech.jpg" target="_blank" rel="noopener"><img src="assets/preview_tech.jpg" alt="צילום מסך: אותו שאלון עם המידע הטכני פתוח — מזהי שאלות QID, סוגי שאלות וקודי ערכים" loading="lazy" width="1000" height="760" style="cursor:zoom-in"></a>
+        <figcaption>אותו שאלון עם כפתור המידע הטכני פתוח — מזהי שאלות (QID), סוגים וקודי הערכים שמופיעים בנתונים. <em>לחצו להגדלה.</em></figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= INSTALL ======================= -->
+<section id="install">
+  <div class="container">
+    <p class="kicker">02 · התקנה בשלוש דקות</p>
+    <h2>דרישה אחת בלבד: R מותקן במחשב</h2>
+    <p class="lead">
+      R היא תוכנת הסטטיסטיקה החינמית שמריצה את הכלי. לא תצטרכו לפתוח אותה אף פעם —
+      רק שתהיה מותקנת. כל השאר קורה בלחיצה כפולה.
+    </p>
+
+    <div class="os-grid">
+      <div class="card">
+        <span class="os-tag">Windows</span>
+        <ol class="steps">
+          <li><strong>מתקינים R</strong> (חד-פעמי): מורידים מ-<a href="https://cran.r-project.org" target="_blank" rel="noopener"><span dir="ltr">cran.r-project.org</span></a> ומתקינים כרגיל — "הבא, הבא, הבא", כל ברירות המחדל טובות.</li>
+          <li><strong>מורידים את ה-ZIP</strong> (הכפתור למעלה), קליק ימני &gt; <span dir="ltr">Extract All</span> / חלץ הכל, ופותחים את התיקייה שנוצרה.</li>
+          <li><strong>לוחצים פעמיים</strong> על <span class="file">Run Me (Windows).cmd</span>. בהרצה הראשונה יותקנו חבילות R אוטומטית (2–5 דקות, פעם אחת בלבד). בסיום נפתח דפדפן עם הכלי.</li>
+        </ol>
+        <div class="note">
+          <strong>לא בטוחים אם R כבר מותקן?</strong> לחצו פעמיים על
+          <span class="file">Check R (Windows).cmd</span> שבתיקייה — ייפתח חלון
+          שיגיד לכם YES (מותקן, אפשר להמשיך) או NO (ויפתח לכם את דף ההורדה).
+        </div>
+      </div>
+      <div class="card">
+        <span class="os-tag">Mac / Linux</span>
+        <ol class="steps">
+          <li><strong>מתקינים R</strong> (חד-פעמי) מ-<a href="https://cran.r-project.org" target="_blank" rel="noopener"><span dir="ltr">cran.r-project.org</span></a>.</li>
+          <li><strong>מורידים את ה-ZIP</strong>, מחלצים ופותחים את התיקייה.</li>
+          <li><strong>לוחצים פעמיים</strong> על <span class="file">Run Me (Mac-Linux).command</span>. ההמשך זהה: התקנת חבילות חד-פעמית, ואז נפתח דפדפן עם הכלי.</li>
+        </ol>
+        <div class="note">
+          לבדיקה אם R מותקן במק: <span class="file">Check R (Mac-Linux).command</span> שבאותה תיקייה.
+        </div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-top:20px;">
+      <h3>אם הדפדפן לא נפתח לבד</h3>
+      <p style="margin:0;">
+        פותחים ידנית את הכתובת <a href="http://127.0.0.1:4975" target="_blank" rel="noopener"><span dir="ltr">http://127.0.0.1:4975</span></a>.
+        הכלי רץ רק על המחשב שלכם (localhost) — אף אחד אחר ברשת לא יכול לגשת אליו.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= USE ======================= -->
+<section id="use">
+  <div class="container">
+    <p class="kicker">03 · שימוש</p>
+    <h2>מדביקים טוקן, בוחרים שאלונים, לוחצים Start</h2>
+    <p class="lead">
+      הכלי נפתח בדפדפן ומוליך אתכם צעד-צעד, כולל מדריך מובנה להשגת הטוקן
+      ("How do I get my API token?") שכתוב למי שלא יודע כלום על APIs.
+    </p>
+
+    <div class="use-grid">
+      <div>
+        <ol class="steps">
+          <li><strong>משיגים טוקן מקוולטריקס</strong> (2 דקות): מתחברים לקוולטריקס בדפדפן, לוחצים על אייקון המשתמש (למעלה) ואז <strong>Account Settings</strong>, בסרגל הצד <strong>Qualtrics IDs</strong>, ובקופסה <strong>API</strong> — אם כבר מוצג שם טוקן, מעתיקים; אחרת לוחצים <strong>Generate Token</strong> ומעתיקים. <a href="#token">פרטים ואזהרה חשובה למטה</a>.</li>
+          <li><strong>מדביקים את הטוקן בכלי</strong> ובודקים את כתובת השרת: מסתכלים על שורת הכתובת כשאתם מחוברים לקוולטריקס — היא נראית כמו <span dir="ltr">something.qualtrics.com</span> — ומקלידים את החלק הזה, בלי <span dir="ltr">https://</span>. לוחצים <strong>Test connection &amp; list surveys</strong>.</li>
+          <li><strong>בוחרים אילו שאלונים לגבות</strong> — ברירת המחדל: הכל. יש תיבת חיפוש לרשימות ארוכות.</li>
+          <li><strong>בוחרים איפה לשמור</strong> (ברירת המחדל: תיקיית "Qualtrics Backups" בתיקיית הבית) ולוחצים <strong>Start backup</strong>.</li>
+          <li><strong>עוקבים אחרי הלוג החי.</strong> הריצה מסתיימת ב-<strong>RESPONSE BACKUP SUMMARY</strong> שמפרט, שאלון אחר שאלון, אילו שאלונים גובו עם כל התשובות, לאילו לא היו תשובות בכלל (תקין), ואילו עדיין מחזיקים נתונים בקוולטריקס. בסיום לוחצים <strong>Open output folder</strong> ופותחים את <span class="file">_index.html</span>.</li>
+          <li><strong>צריך להריץ שוב?</strong> (אחרי תקלה, או סתם ליתר ביטחון) — מריצים על <em>אותה</em> תיקיית גיבוי: שאלונים שכבר הושלמו מדולגים אוטומטית, והכלי מנסה שוב רק את מה שחסר.</li>
+        </ol>
+        <div class="note">
+          <strong>למתקדמים:</strong> הקובץ <span class="file">qualtrics_backup.R</span> שבחבילה
+          ניתן להרצה גם ישירות כסקריפט R (<span dir="ltr">Rscript qualtrics_backup.R</span>) —
+          ההגדרות בראש הקובץ, והטוקן ניתן דרך משתנה סביבה (מוסבר בהערות הקובץ).
+        </div>
+      </div>
+      <div class="card" style="margin-bottom:0;">
+        <h3>מה רואים על המסך</h3>
+        <p style="margin:0;">
+          שלושה כרטיסים פשוטים: <strong>Connect</strong> (טוקן + כתובת שרת, עם מדריך
+          מובנה להשגת הטוקן), <strong>Output</strong> (בחירת תיקיית היעד) ו-<strong>Run
+          backup</strong>. במהלך הריצה מוצג לוג חי של כל שלב, ובסוף — סיכום התוצאות
+          וכפתור <span dir="ltr">Open output folder</span> שפותח את תיקיית הגיבוי.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= WHAT'S NEW IN V2 ======================= -->
+<section id="v2">
+  <div class="container">
+    <p class="kicker">04 · מה חדש בגרסה 2</p>
+    <h2>אי-אפשר יותר לפספס תשובות שלא גובו</h2>
+    <p class="lead">
+      גרסה 2 (16.07.2026) נולדה מריצה אמיתית שבה 2 מתוך 37 שאלונים גובו בלי
+      התשובות — והלוג לא אמר את זה בקול רם מספיק. עכשיו הוא צועק.
+    </p>
+    <div class="v2-grid">
+      <div class="card">
+        <h3>סיכום תשובות בסוף כל ריצה</h3>
+        <p style="margin:0;">
+          הריצה מסתיימת ב-<strong>RESPONSE BACKUP SUMMARY</strong> — בלוג וגם כקובץ
+          <span class="file">_responses_summary.txt</span> בתיקיית הגיבוי: כמה שאלונים
+          גובו עם התשובות, אילו היו ריקים (תקין), ואילו <strong>עדיין מחזיקים נתונים
+          בקוולטריקס שלא גובו</strong> — עם ספירת תשובות לכל שאלון. "35 הצליחו, 2 נכשלו"
+          כבר לא יכול להסתיר מה בדיוק חסר.
+        </p>
+      </div>
+      <div class="card">
+        <h3><span class="file">NO_RESPONSES.txt</span> — ריק זה בסדר</h3>
+        <p style="margin:0;">
+          שאלון עם אפס תשובות מוקלטות מקבל קובץ סימון ברור במקום קבצי תשובות,
+          והלוג אומר במפורש שזו לא שגיאה ("nothing to export"). ריצה חוזרת מזהה
+          את הסימון ולא מנסה את השאלון שוב סתם.
+        </p>
+      </div>
+      <div class="card">
+        <h3>ניסיון חוזר + <span class="file">MISSING_RESPONSES_README.txt</span></h3>
+        <p style="margin:0;">
+          כשהורדת תשובות נכשלת, הכלי מנסה שוב פעם אחת, אוטומטית (אחרי 5 שניות). אם עדיין
+          נכשל — נכתב לתוך תיקיית השאלון קובץ שמסביר בדיוק מה חסר, כמה תשובות
+          קיימות בקוולטריקס, מה הייתה השגיאה, ומה עושים.
+        </p>
+      </div>
+      <div class="card">
+        <h3>שגיאות 404/400 בשפה של בני אדם</h3>
+        <p style="margin:0;">
+          שגיאות ייצוא על שאלונים ששותפו איתכם אך שייכים לחשבון אחר מקבלות עכשיו
+          הסבר ברור ישירות בלוג: מה קרה, למה, ושהפתרון הוא גיבוי עם הטוקן של
+          חשבון הבעלים. <a href="#shared">הסיפור המלא בפתרון תקלות</a>.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= TROUBLESHOOTING ======================= -->
+<section id="troubleshoot">
+  <div class="container">
+    <p class="kicker">05 · פתרון תקלות</p>
+    <h2>הבעיות הנפוצות — והפתרון של כל אחת</h2>
+
+    <table class="tbl">
+      <tr><th style="width:38%;">בעיה</th><th>פתרון</th></tr>
+      <tr>
+        <td>לחיצה כפולה פותחת חלון שנסגר מיד</td>
+        <td>R לא מותקן — מתקינים מ-<a href="https://cran.r-project.org" target="_blank" rel="noopener"><span dir="ltr">cran.r-project.org</span></a> (או מריצים את <span class="file">Check R (Windows).cmd</span> לבדיקה).</td>
+      </tr>
+      <tr>
+        <td><span dir="ltr">"Connection failed: Unauthorized"</span></td>
+        <td>טוקן שגוי או כתובת שרת שגויה — מעתיקים שוב את שניהם. הכתובת מופיעה בשורת הכתובת כשמחוברים לקוולטריקס (<span dir="ltr">something.qualtrics.com</span>, בלי <span dir="ltr">https://</span>).</td>
+      </tr>
+      <tr>
+        <td>הדפדפן לא נפתח</td>
+        <td>נכנסים ידנית ל-<a href="http://127.0.0.1:4975" target="_blank" rel="noopener"><span dir="ltr">http://127.0.0.1:4975</span></a>.</td>
+      </tr>
+      <tr>
+        <td>עברית נראית שבורה באקסל</td>
+        <td>פותחים את קבצי ה-<span dir="ltr">.xlsx</span> (לא את ה-CSV), או מייבאים את ה-CSV כ-UTF-8.</td>
+      </tr>
+      <tr>
+        <td>שאלון מסומן "partial" באינדקס</td>
+        <td>פותחים את <span class="file">_errors.log</span> בתיקיית הגיבוי לסיבה המדויקת, ומריצים שוב — הגיבוי ממשיך מאיפה שעצר (מה שהושלם מדולג).</td>
+      </tr>
+      <tr>
+        <td>בתיקיית שאלון אין קבצי <span dir="ltr">responses_...</span></td>
+        <td>מסתכלים מה יש בתיקייה: <span class="file">NO_RESPONSES.txt</span> = לשאלון אין תשובות, לא אבד כלום. <span class="file">MISSING_RESPONSES_README.txt</span> = ההורדה נכשלה — פותחים אותו לסיבה ולפתרון, ומריצים שוב על אותה תיקיית גיבוי.</td>
+      </tr>
+    </table>
+
+    <div class="card" id="shared" style="margin-top:26px;">
+      <h3>שאלונים ששותפו איתכם — הסיפור של ה-404 וה-400</h3>
+      <p>
+        יש מקרה אחד שנראה מפחיד אבל יש לו הסבר פשוט: שאלון שמופיע אצלכם בחשבון כי
+        <strong>שיתפו אותו איתכם</strong>, אבל הוא בבעלות חשבון אחר. במקרה כזה
+        רשימת השאלונים וכל קבצי המבנה (QSF, קודבוק, תצוגות) יורדים מצוין —
+        אבל הורדת <em>התשובות</em> עלולה להיכשל עם שגיאת
+        <span dir="ltr">404</span> ("check if you are using the correct survey ID") או
+        <span dir="ltr">400</span> (bad request). זו לא תקלה אצלכם:
+        בדרך כלל קוולטריקס דורשת את ההרשאות של <strong>הבעלים</strong> כדי לייצא תשובות.
+      </p>
+      <p><strong>מה עושים:</strong></p>
+      <ul class="plain">
+        <li>פותחים את תיקיית השאלון בגיבוי. בגרסה 2 מחכה שם
+            <span class="file">MISSING_RESPONSES_README.txt</span> שמסביר בדיוק את המצב.</li>
+        <li>בודקים כמה תשובות בכלל קיימות: בקובץ <span class="file">metadata.json</span>
+            שבאותה תיקייה, המספר תחת <span dir="ltr">responsecounts &rarr; auditable</span>.
+            אם הוא 0 — לא אבד כלום; לשאלון מעולם לא היו תשובות.</li>
+        <li>אם המספר גדול מ-0 — יש בקוולטריקס תשובות אמיתיות שלא גובו. הפתרון:
+            מריצים את הגיבוי לשאלון הזה עם <strong>הטוקן של חשבון הבעלים</strong>
+            (או מבקשים מהבעלים להריץ את הכלי אצלו).</li>
+        <li><strong>שימו לב:</strong> עותק ("<span dir="ltr">- Copy</span>") של שאלון שנוצר
+            בחשבון שלכם מגובה מצוין — אבל העתקת שאלון מעתיקה <em>מבנה בלבד</em>,
+            אף פעם לא תשובות. הצלחת העותק לא מצילה את הנתונים של המקור.</li>
+      </ul>
+    </div>
+
+    <div class="card" id="token">
+      <h3>הטוקן (API Token) — איפה משיגים ואיך שומרים עליו</h3>
+      <p>
+        הטוקן הוא מפתח גישה אישי — מחרוזת ארוכה של אותיות ומספרים — שמאפשרת לכלי
+        לקרוא את השאלונים של החשבון <em>שלכם</em>. משיגים אותו כך:
+      </p>
+      <ol class="steps">
+        <li>מתחברים לקוולטריקס בדפדפן.</li>
+        <li>לוחצים על אייקון המשתמש (בפינה העליונה) ובוחרים <strong>Account Settings</strong>.</li>
+        <li>בסרגל הצד לוחצים <strong>Qualtrics IDs</strong>.</li>
+        <li>מאתרים את הקופסה בשם <strong>API</strong>. אם מוצג שם טוקן — מעתיקים.
+            אחרת לוחצים <strong>Generate Token</strong> ומעתיקים.</li>
+        <li>מדביקים בכלי כשמתבקשים.</li>
+      </ol>
+      <p style="font-size:0.94em; color: var(--muted);">
+        אין כפתור Generate Token? מנהל הקוולטריקס של המוסד שלכם צריך לאפשר גישת
+        API לחשבון — פנו אליו.
+      </p>
+      <div class="warning">
+        <b class="t">הטוקן הוא כמו סיסמה לחשבון הקוולטריקס שלכם.</b>
+        לא שולחים אותו במייל, לא מדביקים בקבוצת וואטסאפ, לא משתפים עם אף אחד.
+        הכלי מחזיק אותו <strong>בזיכרון בלבד</strong> בזמן שהוא רץ — הוא לא נכתב
+        לשום קובץ ולשום לוג, ואפשר למחוק אותו בכל רגע עם כפתור
+        <span dir="ltr">"Clear token from session"</span>. אם יש חשד שהטוקן דלף —
+        נכנסים לקוולטריקס ויוצרים טוקן חדש (Generate Token), או פונים למנהל
+        הקוולטריקס המוסדי.
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= FAQ ======================= -->
+<section id="faq">
+  <div class="container">
+    <p class="kicker">06 · שאלות נפוצות</p>
+    <h2>שאלות שכל מעבדה שואלת</h2>
+
+    <details class="faq">
+      <summary>הכלי יכול לשנות או למחוק משהו בחשבון הקוולטריקס שלי?</summary>
+      <p>לא. הכלי <strong>קורא בלבד</strong>: הוא אף פעם לא משנה, לא יוצר ולא מוחק
+         שום דבר בחשבון. הוא פונה רק לנקודות קצה של קריאה (רשימת שאלונים, מבנה,
+         ייצוא תשובות).</p>
+    </details>
+
+    <details class="faq">
+      <summary>איפה הטוקן שלי נשמר?</summary>
+      <p>רק בזיכרון של האפליקציה, ורק כל עוד הלשונית פתוחה. הוא לא נכתב לקובץ, לא
+         נרשם ללוג, ונמחק כשסוגרים את הדפדפן — או מיד, בלחיצה על
+         <span dir="ltr">"Clear token from session"</span>.</p>
+    </details>
+
+    <details class="faq">
+      <summary>הנתונים שלי נשלחים לענן או לצד שלישי?</summary>
+      <p>לא. הכלי רץ רק על המחשב שלכם (localhost — אף אחד ברשת לא יכול לגשת אליו),
+         מתקשר ישירות עם קוולטריקס ב-HTTPS, ושומר את הגיבוי בתיקייה שבחרתם. שום
+         דבר לא מועלה לשום מקום.</p>
+      <p>זכרו: תיקיית הגיבוי מכילה נתוני נבדקים — שמרו עליה לפי כללי ה-IRB
+         והפרטיות של המוסד שלכם.</p>
+    </details>
+
+    <details class="faq">
+      <summary>אני לא יודע/ת R — זו בעיה?</summary>
+      <p>לא. R רק צריכה להיות מותקנת — אף פעם לא פותחים אותה. כל העבודה נעשית
+         בלחיצה כפולה על <span class="file">Run Me (Windows).cmd</span>
+         (במק: <span class="file">Run Me (Mac-Linux).command</span>) ובדפדפן.</p>
+    </details>
+
+    <details class="faq">
+      <summary>שאלון נמחק לי בקוולטריקס — אפשר להחזיר אותו מהגיבוי?</summary>
+      <p>כן. בתיקיית השאלון שמור <span class="file">survey.qsf</span> — קובץ השחזור.
+         בקוולטריקס: <span dir="ltr">Create New Project &gt; Survey &gt; Import a QSF file</span>,
+         בוחרים את הקובץ — והשאלון חוזר, ניתן לעריכה.</p>
+    </details>
+
+    <details class="faq">
+      <summary>הריצה נקטעה באמצע / הוספתי שאלונים חדשים — מה עושים?</summary>
+      <p>פשוט מריצים שוב על אותה תיקיית גיבוי. שאלונים שכבר הושלמו מדולגים
+         אוטומטית (resume), ורק מה שחסר או חדש מנוסה.</p>
+    </details>
+
+    <details class="faq">
+      <summary>מה עם שאלונים ששיתפו איתי אבל הם לא שלי?</summary>
+      <p>המבנה שלהם (QSF, תצוגות, קודבוק) יגובה. הורדת התשובות עלולה להיכשל
+         (404/400) כי קוולטריקס דורשת את הרשאות הבעלים לייצוא תשובות — הפתרון
+         הוא גיבוי עם הטוקן של חשבון הבעלים. <a href="#shared">ההסבר המלא למעלה</a>.</p>
+    </details>
+
+    <details class="faq">
+      <summary>זה עובד רק בבר-אילן? ומה אם אין לי כפתור Generate Token?</summary>
+      <p>הכלי עובד עם כל חשבון קוולטריקס שיש לו גישת API, בכל מוסד. כתובת השרת
+         נלקחת משורת הכתובת של הדפדפן (<span dir="ltr">something.qualtrics.com</span>).
+         אם אין כפתור Generate Token — מנהל הקוולטריקס המוסדי צריך לאפשר גישת API
+         לחשבון שלכם.</p>
+    </details>
+
+    <details class="faq">
+      <summary>כמה זה עולה?</summary>
+      <p>כלום. הכלי חינמי לשימוש מחקרי, ו-R חינמית לחלוטין.</p>
+    </details>
+  </div>
+</section>
+
+<!-- ======================= ENGLISH SUMMARY ======================= -->
+<section id="english" class="english" lang="en">
+  <div class="container">
+    <p class="kicker">07 · ENGLISH SUMMARY</p>
+    <h2>Qualtrics Backup — quick summary in English</h2>
+    <div class="card">
+      <p>
+        <strong>What it is.</strong> A free tool that downloads a complete local backup of
+        <strong>every survey</strong> in a Qualtrics account: the structure (an editable
+        <span class="file">survey.qsf</span> restore file, codebook, question list, survey flow
+        and display logic), <strong>all responses</strong> (numeric CSV/RDS for analysis plus
+        labeled CSV/XLSX for reading, Hebrew-safe), and offline HTML/Word previews that look
+        like Qualtrics. Everything is saved in open formats that need no Qualtrics, no
+        internet, and no login.
+      </p>
+      <p>
+        <strong>Install (3 minutes).</strong> Install R (free, from
+        <a href="https://cran.r-project.org" target="_blank" rel="noopener">cran.r-project.org</a>) &mdash;
+        you never open R itself. Download the ZIP above, extract it, and double-click
+        <span class="file">Run Me (Windows).cmd</span> (Mac:
+        <span class="file">Run Me (Mac-Linux).command</span>). On the first run, R packages
+        install automatically (2&ndash;5 minutes, once). A browser tab opens with the tool.
+        Not sure if R is installed? Double-click <span class="file">Check R (Windows).cmd</span>.
+      </p>
+      <p>
+        <strong>Use.</strong> Get your API token in Qualtrics (account icon &rarr; Account
+        Settings &rarr; Qualtrics IDs &rarr; API &rarr; Generate Token &mdash; treat it like a
+        password: never email or share it; the tool keeps it in memory only, never on disk).
+        Paste it, click <strong>Test connection &amp; list surveys</strong>, pick surveys
+        (default: all), and click <strong>Start backup</strong>. The run ends with a
+        <strong>RESPONSE BACKUP SUMMARY</strong> telling you, survey by survey, whose responses
+        are safely backed up, which surveys had none to begin with (fine), and which still have
+        data waiting in Qualtrics (also saved as <span class="file">_responses_summary.txt</span>).
+        Re-running on the same backup folder resumes: completed surveys are skipped.
+      </p>
+      <p>
+        <strong>Safety.</strong> Read-only against Qualtrics &mdash; it can never modify or
+        delete anything in your account. The app is reachable only from your own computer
+        (localhost). Nothing is uploaded anywhere; treat the backup folder per your IRB
+        obligations.
+      </p>
+      <p>
+        <strong>New in version 2.0 (2026-07-16).</strong> The end-of-run summary above;
+        <span class="file">NO_RESPONSES.txt</span> markers for zero-response surveys (nothing
+        was lost); an automatic retry plus a <span class="file">MISSING_RESPONSES_README.txt</span>
+        written into the survey folder when a response export fails &mdash; usually a survey
+        shared with you but owned by another account (back it up with the owner's token); and
+        plain-language explanations for those 404/400 errors right in the log.
+      </p>
+      <p>
+        <strong>Download.</strong>
+        <a href="qualtrics_backup_shiny.zip" download>qualtrics_backup_shiny.zip</a>
+        (85&nbsp;KB; SHA-256 in the footer).
+      </p>
+      <p>
+        <strong>Contact.</strong> Built by Elad Refoua (Bar-Ilan University) + Claude.
+        Free for research use. Questions:
+        <a href="mailto:eladrefoua@gmail.com">eladrefoua@gmail.com</a>.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= BOTTOM CTA ======================= -->
+<div class="container">
+  <div class="bottom-cta">
+    <div>
+      <h2>מוכנים לגבות?</h2>
+      <p>הורדה, חילוץ, לחיצה כפולה — והכל אצלכם במחשב.</p>
+    </div>
+    <a class="dl-btn" href="qualtrics_backup_shiny.zip" download>הורדת הכלי (ZIP)&nbsp;<span class="arrow">&#8595;</span></a>
+  </div>
+</div>
+
+<!-- ======================= FOOTER ======================= -->
+<footer>
+  <div class="container">
+    <p style="margin:0;">
+      נבנה ע"י אלעד רפואה (אוניברסיטת בר-אילן) + Claude &nbsp;·&nbsp; חינם לשימוש מחקרי ולשיתוף
+      &nbsp;·&nbsp; שאלות: <a href="mailto:eladrefoua@gmail.com">eladrefoua@gmail.com</a>
+    </p>
+    <p style="margin:8px 0 0;">
+      גרסה 2.0 · נבנה 16.07.2026 · <span dir="ltr">85 KB</span> · הכלי קורא בלבד מול קוולטריקס ואינו שולח שום מידע לשום מקום — הכל נשאר במחשב שלכם.
+    </p>
+    <p class="sha-f">qualtrics_backup_shiny.zip &nbsp;SHA-256:&nbsp; d207925f2cd82f1735e0f3e5dc77abe9e449ffed794c2f1d2c2fe7fba3167bc6</p>
+  </div>
+</footer>
+
+</body>
+</html>
