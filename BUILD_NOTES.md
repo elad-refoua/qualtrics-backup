@@ -35,9 +35,9 @@ pure-CSS details/summary); 07 English quick summary; bottom CTA; footer.
 ## Download artifact facts (displayed on the page)
 
 - File: `qualtrics_backup_shiny.zip`
-- SHA-256: `d207925f2cd82f1735e0f3e5dc77abe9e449ffed794c2f1d2c2fe7fba3167bc6`
-  (source and site copy verified identical by hash)
-- Size: 87,274 bytes — displayed as "85 KB" (KiB, matching Windows Explorer display)
+- SHA-256: `c712f5e853c48652dfd6ee9421216cbaca9ec32c54d2beefbd204d51a36f47fa`
+  (source and site copy verified identical by hash; updated 2026-07-22 — see Changelog)
+- Size: 87,474 bytes — displayed as "85 KB" (KiB, matching Windows Explorer display)
 - Build date of the zip: 2026-07-16 (v2 rollout rebuild per DIAGNOSIS_2026-07-16.md §6)
 - Version label: "2.0" (per the task spec; the codebase calls it "v2")
 - Zip contents (10 files, verified by listing): app.R, Check R (Mac-Linux).command,
@@ -98,3 +98,24 @@ pure-CSS details/summary); 07 English quick summary; bottom CTA; footer.
    presented as "the" address, since the audience is any Israeli lab.
 6. Contact email shown (eladrefoua@gmail.com) is the deliberate contact per spec;
    no other personal data appears on the page.
+
+## Changelog
+
+### 2026-07-22 — content fixes, de-pomp, and bundled-HTML sync (SHA changed)
+Site page (`index.html`), per Elad:
+- QSF `survey.qsf` now states it restores the **survey structure only, not the responses**
+  (file-list entry + the matching FAQ).
+- Removed the "מה חדש בגרסה 2" section entirely (and the parallel English "New in v2.0"
+  paragraph); renumbered the following sections to 01–06.
+- Shared-not-owned survey section now gives **two ways** to get the responses: via the tool
+  with the owner's token, **or** a manual Qualtrics export (works even from the shared
+  account). Mirrored in the FAQ.
+- De-pomped the copy (removed "עם כל מה שתצטרכו אי-פעם", "קוולטריקס תיעלם מחר…", "שאלות שכל
+  מעבדה שואלת", "מוכנים לגבות?", stray "מלא"/bold emphasis; light English de-emphasis).
+
+Bundled tool HTML (`share/START_HERE.html`, shipped inside the zip) — synced to match the
+site: same QSF structure-not-responses clarification, same shared-survey manual-export note,
+same de-pomp. The zip was rebuilt with **only START_HERE.html changed** (the other 9 files —
+app.R, qualtrics_backup.R, README.md, run scripts — copied byte-for-byte from the prior zip).
+Both the site copy and the root source copy were replaced and re-verified identical.
+New size 87,474 bytes (85.4 KiB → still "85 KB"). Nothing deployed yet.

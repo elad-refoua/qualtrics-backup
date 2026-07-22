@@ -283,9 +283,8 @@
     <p class="badge">גרסה 2.0 · עודכן 16.07.2026 · חינם לשימוש מחקרי</p>
     <h1>גיבוי קוולטריקס</h1>
     <p class="tagline">
-      גיבוי מקומי מלא של <strong>כל</strong> השאלונים בחשבון הקוולטריקס שלכם —
-      המבנה, כל התשובות ותצוגה קריאה של כל שאלון — בפורמטים פתוחים שנפתחים בכל
-      דפדפן, בלי אינטרנט ובלי קוולטריקס.
+      גיבוי מקומי של כל השאלונים בחשבון הקוולטריקס שלכם — המבנה, התשובות
+      ותצוגה קריאה — בפורמטים פתוחים שנפתחים בכל דפדפן, בלי אינטרנט ובלי קוולטריקס.
     </p>
     <div class="cta">
       <a class="dl-btn" href="qualtrics_backup_shiny.zip" download>הורדת הכלי (ZIP)&nbsp;<span class="arrow">&#8595;</span></a>
@@ -294,7 +293,7 @@
         עובד ב-Windows וב-Mac &nbsp;·&nbsp; דורש רק את R (חינם)
       </div>
     </div>
-    <p class="sha">SHA-256: d207925f2cd82f1735e0f3e5dc77abe9e449ffed794c2f1d2c2fe7fba3167bc6</p>
+    <p class="sha">SHA-256: c712f5e853c48652dfd6ee9421216cbaca9ec32c54d2beefbd204d51a36f47fa</p>
     <ul class="trust">
       <li>קורא בלבד — לא משנה ולא מוחק שום דבר בחשבון</li>
       <li>הטוקן נשמר בזיכרון בלבד — אף פעם לא בקובץ</li>
@@ -316,11 +315,10 @@
 <section id="what-you-get">
   <div class="container">
     <p class="kicker">01 · מה מקבלים</p>
-    <h2>תיקייה אחת לכל שאלון — עם כל מה שתצטרכו אי-פעם</h2>
+    <h2>תיקייה אחת לכל שאלון: נתונים, מבנה ותצוגה</h2>
     <p class="lead">
-      הכלי מוריד לכל שאלון את הנתונים, את המבנה המלא ואת התצוגה — כך שגם אם
-      קוולטריקס תיעלם מחר, לא איבדתם כלום: לא את התשובות, לא את השאלון עצמו,
-      ולא את הלוגיקה של מי ראה מה.
+      הכלי מוריד לכל שאלון את הנתונים, את המבנה ואת התצוגה — התשובות, השאלון
+      עצמו, והלוגיקה של מי ראה מה. הכל נשמר אצלכם במחשב, בפורמטים פתוחים.
     </p>
 
     <div class="card">
@@ -334,7 +332,7 @@
         <div class="fname"><span class="file">responses_labels.csv / .xlsx</span></div>
         <div class="fdesc">התשובות כטקסט שהנבדקים באמת סימנו. קובץ ה-.xlsx נפתח נקי באקסל, כולל עברית.</div>
         <div class="fname"><span class="file">survey.qsf</span></div>
-        <div class="fdesc"><strong>קובץ השחזור.</strong> בקוולטריקס: <span dir="ltr">Create New Project &gt; Survey &gt; Import a QSF file</span> — והשאלון חוזר, ניתן לעריכה, גם אם המקור נמחק.</div>
+        <div class="fdesc"><strong>קובץ השחזור של השאלון עצמו.</strong> בקוולטריקס: <span dir="ltr">Create New Project &gt; Survey &gt; Import a QSF file</span> — והשאלון חוזר, ניתן לעריכה, גם אם המקור נמחק. חשוב: ה-QSF מחזיר את <strong>מבנה השאלון</strong> (השאלות, הלוגיקה והעיצוב) בלבד — <strong>לא את התשובות</strong>. התשובות שמורות בנפרד בקבצי <span class="file">responses_…</span>.</div>
         <div class="fname"><span class="file">codebook.csv / .xlsx</span></div>
         <div class="fdesc">איזה מספר בנתונים = איזו תשובה.</div>
         <div class="fname"><span class="file">questions.csv / .xlsx</span></div>
@@ -356,7 +354,7 @@
       </div>
       <p style="margin:16px 0 0; color: var(--muted); font-size: 0.94em;">
         ובנוסף, לכל ריצת גיבוי: <span class="file">_index.html</span> — דף אינדקס לחיץ עם כל השאלונים,
-        קישורים לכל הקבצים ומילון מונחים מלא בשפה פשוטה — וקובץ
+        קישורים לכל הקבצים ומילון מונחים בשפה פשוטה — וקובץ
         <span class="file">_responses_summary.txt</span> שמסכם בדיוק אילו תשובות גובו.
       </p>
     </div>
@@ -482,59 +480,11 @@
   </div>
 </section>
 
-<!-- ======================= WHAT'S NEW IN V2 ======================= -->
-<section id="v2">
-  <div class="container">
-    <p class="kicker">04 · מה חדש בגרסה 2</p>
-    <h2>אי-אפשר יותר לפספס תשובות שלא גובו</h2>
-    <p class="lead">
-      גרסה 2 (16.07.2026) נולדה מריצה אמיתית שבה 2 מתוך 37 שאלונים גובו בלי
-      התשובות — והלוג לא אמר את זה בקול רם מספיק. עכשיו הוא צועק.
-    </p>
-    <div class="v2-grid">
-      <div class="card">
-        <h3>סיכום תשובות בסוף כל ריצה</h3>
-        <p style="margin:0;">
-          הריצה מסתיימת ב-<strong>RESPONSE BACKUP SUMMARY</strong> — בלוג וגם כקובץ
-          <span class="file">_responses_summary.txt</span> בתיקיית הגיבוי: כמה שאלונים
-          גובו עם התשובות, אילו היו ריקים (תקין), ואילו <strong>עדיין מחזיקים נתונים
-          בקוולטריקס שלא גובו</strong> — עם ספירת תשובות לכל שאלון. "35 הצליחו, 2 נכשלו"
-          כבר לא יכול להסתיר מה בדיוק חסר.
-        </p>
-      </div>
-      <div class="card">
-        <h3><span class="file">NO_RESPONSES.txt</span> — ריק זה בסדר</h3>
-        <p style="margin:0;">
-          שאלון עם אפס תשובות מוקלטות מקבל קובץ סימון ברור במקום קבצי תשובות,
-          והלוג אומר במפורש שזו לא שגיאה ("nothing to export"). ריצה חוזרת מזהה
-          את הסימון ולא מנסה את השאלון שוב סתם.
-        </p>
-      </div>
-      <div class="card">
-        <h3>ניסיון חוזר + <span class="file">MISSING_RESPONSES_README.txt</span></h3>
-        <p style="margin:0;">
-          כשהורדת תשובות נכשלת, הכלי מנסה שוב פעם אחת, אוטומטית (אחרי 5 שניות). אם עדיין
-          נכשל — נכתב לתוך תיקיית השאלון קובץ שמסביר בדיוק מה חסר, כמה תשובות
-          קיימות בקוולטריקס, מה הייתה השגיאה, ומה עושים.
-        </p>
-      </div>
-      <div class="card">
-        <h3>שגיאות 404/400 בשפה של בני אדם</h3>
-        <p style="margin:0;">
-          שגיאות ייצוא על שאלונים ששותפו איתכם אך שייכים לחשבון אחר מקבלות עכשיו
-          הסבר ברור ישירות בלוג: מה קרה, למה, ושהפתרון הוא גיבוי עם הטוקן של
-          חשבון הבעלים. <a href="#shared">הסיפור המלא בפתרון תקלות</a>.
-        </p>
-      </div>
-    </div>
-  </div>
-</section>
-
 <!-- ======================= TROUBLESHOOTING ======================= -->
 <section id="troubleshoot">
   <div class="container">
-    <p class="kicker">05 · פתרון תקלות</p>
-    <h2>הבעיות הנפוצות — והפתרון של כל אחת</h2>
+    <p class="kicker">04 · פתרון תקלות</p>
+    <h2>תקלות נפוצות ופתרונן</h2>
 
     <table class="tbl">
       <tr><th style="width:38%;">בעיה</th><th>פתרון</th></tr>
@@ -577,14 +527,22 @@
       </p>
       <p><strong>מה עושים:</strong></p>
       <ul class="plain">
-        <li>פותחים את תיקיית השאלון בגיבוי. בגרסה 2 מחכה שם
+        <li>פותחים את תיקיית השאלון בגיבוי. מחכה שם
             <span class="file">MISSING_RESPONSES_README.txt</span> שמסביר בדיוק את המצב.</li>
         <li>בודקים כמה תשובות בכלל קיימות: בקובץ <span class="file">metadata.json</span>
             שבאותה תיקייה, המספר תחת <span dir="ltr">responsecounts &rarr; auditable</span>.
             אם הוא 0 — לא אבד כלום; לשאלון מעולם לא היו תשובות.</li>
-        <li>אם המספר גדול מ-0 — יש בקוולטריקס תשובות אמיתיות שלא גובו. הפתרון:
-            מריצים את הגיבוי לשאלון הזה עם <strong>הטוקן של חשבון הבעלים</strong>
-            (או מבקשים מהבעלים להריץ את הכלי אצלו).</li>
+        <li>אם המספר גדול מ-0 — יש בקוולטריקס תשובות אמיתיות שלא גובו, ויש <strong>שתי דרכים</strong> להשיג אותן:
+          <ul class="plain" style="margin-top:8px;">
+            <li><strong>דרך הכלי, עם הטוקן של חשבון הבעלים:</strong> מריצים את הגיבוי לשאלון הזה עם
+                הטוקן של החשבון שבבעלותו השאלון (או מבקשים מהבעלים להריץ את הכלי אצלו) — והתשובות ירדו אוטומטית.</li>
+            <li><strong>ידנית מקוולטריקס — עובד גם מהחשבון שלכם:</strong> אם השאלון שותף איתכם עם הרשאת צפייה בנתונים,
+                אפשר בדרך כלל לייצא את התשובות ישירות מהממשק של קוולטריקס, בלי הכלי:
+                <span dir="ltr">Data &amp; Analysis &rarr; Export &amp; Import &rarr; Export Data</span>,
+                ובוחרים <span dir="ltr">CSV</span> או <span dir="ltr">Excel</span>. הייצוא הידני מהאתר עובד לרוב
+                גם כשייצוא ה-API של הכלי נכשל ב-404/400.</li>
+          </ul>
+        </li>
         <li><strong>שימו לב:</strong> עותק ("<span dir="ltr">- Copy</span>") של שאלון שנוצר
             בחשבון שלכם מגובה מצוין — אבל העתקת שאלון מעתיקה <em>מבנה בלבד</em>,
             אף פעם לא תשובות. הצלחת העותק לא מצילה את הנתונים של המקור.</li>
@@ -625,8 +583,8 @@
 <!-- ======================= FAQ ======================= -->
 <section id="faq">
   <div class="container">
-    <p class="kicker">06 · שאלות נפוצות</p>
-    <h2>שאלות שכל מעבדה שואלת</h2>
+    <p class="kicker">05 · שאלות נפוצות</p>
+    <h2>שאלות שחוזרות</h2>
 
     <details class="faq">
       <summary>הכלי יכול לשנות או למחוק משהו בחשבון הקוולטריקס שלי?</summary>
@@ -660,9 +618,11 @@
 
     <details class="faq">
       <summary>שאלון נמחק לי בקוולטריקס — אפשר להחזיר אותו מהגיבוי?</summary>
-      <p>כן. בתיקיית השאלון שמור <span class="file">survey.qsf</span> — קובץ השחזור.
+      <p>כן, את <strong>השאלון עצמו</strong>. בתיקיית השאלון שמור <span class="file">survey.qsf</span> — קובץ השחזור.
          בקוולטריקס: <span dir="ltr">Create New Project &gt; Survey &gt; Import a QSF file</span>,
          בוחרים את הקובץ — והשאלון חוזר, ניתן לעריכה.</p>
+      <p>שימו לב: ה-QSF מחזיר את <strong>מבנה השאלון בלבד</strong> (שאלות, לוגיקה ועיצוב), <strong>לא את התשובות</strong>.
+         התשובות שגובו שמורות בנפרד, בקבצי <span class="file">responses_numeric</span> ו-<span class="file">responses_labels</span> שבאותה תיקייה.</p>
     </details>
 
     <details class="faq">
@@ -673,9 +633,10 @@
 
     <details class="faq">
       <summary>מה עם שאלונים ששיתפו איתי אבל הם לא שלי?</summary>
-      <p>המבנה שלהם (QSF, תצוגות, קודבוק) יגובה. הורדת התשובות עלולה להיכשל
-         (404/400) כי קוולטריקס דורשת את הרשאות הבעלים לייצוא תשובות — הפתרון
-         הוא גיבוי עם הטוקן של חשבון הבעלים. <a href="#shared">ההסבר המלא למעלה</a>.</p>
+      <p>המבנה שלהם (QSF, תצוגות, קודבוק) יגובה. הורדת התשובות <em>דרך הכלי</em> עלולה להיכשל
+         (404/400) כי קוולטריקס דורשת את הרשאות הבעלים לייצוא ב-API. יש שתי דרכים להשיג את התשובות:
+         גיבוי עם הטוקן של חשבון הבעלים, או ייצוא ידני מקוולטריקס — שעובד לרוב גם מהחשבון שלכם.
+         <a href="#shared">ההסבר המלא למעלה</a>.</p>
     </details>
 
     <details class="faq">
@@ -696,14 +657,14 @@
 <!-- ======================= ENGLISH SUMMARY ======================= -->
 <section id="english" class="english" lang="en">
   <div class="container">
-    <p class="kicker">07 · ENGLISH SUMMARY</p>
+    <p class="kicker">06 · ENGLISH SUMMARY</p>
     <h2>Qualtrics Backup — quick summary in English</h2>
     <div class="card">
       <p>
-        <strong>What it is.</strong> A free tool that downloads a complete local backup of
-        <strong>every survey</strong> in a Qualtrics account: the structure (an editable
+        <strong>What it is.</strong> A free tool that downloads a local backup of every survey
+        in a Qualtrics account: the structure (an editable
         <span class="file">survey.qsf</span> restore file, codebook, question list, survey flow
-        and display logic), <strong>all responses</strong> (numeric CSV/RDS for analysis plus
+        and display logic), the responses (numeric CSV/RDS for analysis plus
         labeled CSV/XLSX for reading, Hebrew-safe), and offline HTML/Word previews that look
         like Qualtrics. Everything is saved in open formats that need no Qualtrics, no
         internet, and no login.
@@ -735,14 +696,6 @@
         obligations.
       </p>
       <p>
-        <strong>New in version 2.0 (2026-07-16).</strong> The end-of-run summary above;
-        <span class="file">NO_RESPONSES.txt</span> markers for zero-response surveys (nothing
-        was lost); an automatic retry plus a <span class="file">MISSING_RESPONSES_README.txt</span>
-        written into the survey folder when a response export fails &mdash; usually a survey
-        shared with you but owned by another account (back it up with the owner's token); and
-        plain-language explanations for those 404/400 errors right in the log.
-      </p>
-      <p>
         <strong>Download.</strong>
         <a href="qualtrics_backup_shiny.zip" download>qualtrics_backup_shiny.zip</a>
         (85&nbsp;KB; SHA-256 in the footer).
@@ -762,7 +715,7 @@
 <div class="container">
   <div class="bottom-cta">
     <div>
-      <h2>מוכנים לגבות?</h2>
+      <h2>מתחילים בגיבוי</h2>
       <p>הורדה, חילוץ, לחיצה כפולה — והכל אצלכם במחשב.</p>
     </div>
     <a class="dl-btn" href="qualtrics_backup_shiny.zip" download>הורדת הכלי (ZIP)&nbsp;<span class="arrow">&#8595;</span></a>
@@ -783,7 +736,7 @@
     <p style="margin:8px 0 0;">
       גרסה 2.0 · נבנה 16.07.2026 · <span dir="ltr">85 KB</span> · הכלי קורא בלבד מול קוולטריקס ואינו שולח שום מידע לשום מקום — הכל נשאר במחשב שלכם.
     </p>
-    <p class="sha-f">qualtrics_backup_shiny.zip &nbsp;SHA-256:&nbsp; d207925f2cd82f1735e0f3e5dc77abe9e449ffed794c2f1d2c2fe7fba3167bc6</p>
+    <p class="sha-f">qualtrics_backup_shiny.zip &nbsp;SHA-256:&nbsp; c712f5e853c48652dfd6ee9421216cbaca9ec32c54d2beefbd204d51a36f47fa</p>
   </div>
 </footer>
 
