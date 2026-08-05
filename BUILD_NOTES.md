@@ -101,6 +101,35 @@ pure-CSS details/summary); 07 English quick summary; bottom CTA; footer.
 
 ## Changelog
 
+### 2026-08-05 — silent-crash fix for "run from inside the ZIP" + troubleshooting update (SHA changed)
+Root cause found and reproduced deterministically (see repo `PROJECT_TIMELINE.md`): if a user
+opens `qualtrics_backup_shiny.zip` in Windows Explorer and double-clicks `Run Me (Windows).cmd`
+WITHOUT extracting first, Windows silently copies out only that one file to a temp folder —
+`run_app.R` and the rest are never there. On this class of machine, `Rscript.exe run_app.R`
+against a missing file does not print a normal error; it crashes with an access violation
+(0xC0000005) and zero output, so the user just sees "App stopped." with no explanation.
+Reproduced 3x live with `Start-Process` + redirected stdout/stderr; confirmed the crash is
+specific to a missing script file (`Rscript.exe -e "1+1"` works fine).
+
+Fix (both launchers, `share/` + bundled in the zip):
+- `Run Me (Windows).cmd` / `Run Me (Mac-Linux).command` now check that `run_app.R` exists next
+  to them BEFORE calling R. If not, they print a plain-language explanation ("you ran this from
+  inside the ZIP, extract it first") instead of silently crashing. Verified live: reproduces the
+  clear message in the exact failure scenario, and the normal (extracted) path still proceeds to
+  R unaffected.
+- `share/README.md` troubleshooting table: split the old single "double-click closes" row (which
+  assumed missing R) into two rows — the real missing-R symptom, and this new "found R but 'App
+  stopped' with nothing else" symptom.
+- This page (`index.html`): added the matching row to the troubleshooting table (04).
+- Incidental: a stray `share/.claude/session-log.md` (local Claude Code session metadata, not
+  meant for distribution) had been swept into the previous zip build by `share\*`. Removed before
+  rebuilding; the token/path audit on the new zip confirms exactly the intended 10 files, 0
+  40-char strings, 0 user-profile paths.
+
+New SHA-256: `2bff5df18b659cbe3de89e74f857da1af82eeea51de8c4713fc0188102958ba7`. New size: 88,380
+bytes (86.3 KiB, displayed "86 KB"). `_verify_site.py`'s size check was hardcoded to "85 KB" from
+the last build — generalized to compare against the actual rounded size instead of a literal.
+
 ### 2026-07-22 — content fixes, de-pomp, and bundled-HTML sync (SHA changed)
 Site page (`index.html`), per Elad:
 - QSF `survey.qsf` now states it restores the **survey structure only, not the responses**
