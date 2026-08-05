@@ -101,6 +101,63 @@ pure-CSS details/summary); 07 English quick summary; bottom CTA; footer.
 
 ## Changelog
 
+### 2026-08-05 (3) — fix trailing-space folder-creation crash + audit two more free-text fields (SHA changed)
+Same real user (already past the two earlier fixes) hit a third, different failure: connected
+fine, listed her 254 surveys fine, then `FATAL: Could not create the output folder: <her folder
+name> /ISF/2026-08-05`. Root cause reproduced live: her typed backup-root folder name almost
+certainly ends in a trailing space (easy to add by accident - autocomplete, paste, a stray
+keystroke). Confirmed deterministically that `dir.create()` on Windows returns `FALSE` for a path
+whose last segment ends in a space, even with `recursive = TRUE`, with zero explanation - exactly
+this error and nothing else.
+
+Interesting: the codebase already defends against this for SURVEY names via `safe_folder_name()`
+(strips trailing `.`/space - see its own comment), but the top-level `backup_root` field (raw free
+text from the UI, correctly never run through `safe_folder_name()` since it legitimately contains
+`:` and `/`) had no equivalent guard.
+
+Fix: `trimws()` added once in `run_backup_session()` (the shared core - protects both the Shiny UI
+and the CLI path, not just app.R) for both `account_name` and `backup_root`. Verified live:
+reproduced the exact failure, then re-ran the identical scenario through the fix and confirmed it
+succeeds.
+
+While auditing for the same bug class (per Elad's request to proactively check for more), found
+and fixed a related but distinct gap: `input$api_token` and `input$base_url` in the "Test
+connection" handler were also used raw/untrimmed - a pasted token or URL with invisible
+leading/trailing whitespace would fail with a generic "Unauthorized", matching a symptom already
+in this page's own troubleshooting table with no explanation of why. Trimmed both at the point
+they are captured into reactives, and made the one inconsistent raw `input$base_url` reference use
+the trimmed local variable instead.
+
+New SHA-256: `d889b0f2dc60999092c1df29ae20880ad0c6e61370f5af0e9c776d334110b30a`. New size: 90,545
+bytes (88.4 KiB, still displayed "88 KB"). Could not run the full `tests_regression.R` suite (no
+local QSF fixture / real AI PSYCH backup folder available) - the changed code does not touch
+QSF/artifact parsing, so verified the specific behavior change directly instead (see above).
+
+### 2026-08-05 (2) — fix "R library not writable" install failure + prominent extract warning (SHA changed)
+A real user (not Elad) hit a second, different failure: she DID extract the ZIP correctly and R
+WAS found correctly, but package installation failed with
+`'lib = "C:/Program Files/R/R-4.6.1/library"' is not writable` / `unable to install packages` /
+`Execution halted`. Root cause: her R was installed "for all users" (the Windows installer's
+non-default choice, common on institutional/shared machines), which makes R's own library folder
+admin-owned. `install.packages()` under a plain `Rscript` session never gets the interactive
+"use a personal library instead?" prompt R normally offers - it just fails outright with no
+fallback.
+
+Fix (`share/run_app.R`, `share/install.R`, mirrored at root `run_app.R`): before installing
+anything, resolve the user's personal per-version library (`Sys.getenv("R_LIBS_USER")`, with a
+manual fallback if unset), `dir.create()` it if it does not exist yet, and prepend it to
+`.libPaths()` so `install.packages()` targets it explicitly (`lib = .install_lib`) instead of
+depending on the default library resolution order. Verified live: ran the exact fix logic against
+a scratch profile and installed a real CRAN package (`digest`) into a freshly created personal
+library end to end. Also wrapped the install call in `tryCatch` so a genuine remaining failure
+(no internet, disk full, etc.) prints a plain-language message instead of a raw R error.
+
+Also, per Elad: made the "extract before running" instruction more prominent — added right next to
+the download button (not just buried in step 1 of the 3-step strip or the troubleshooting table).
+
+New SHA-256: `c0d95f47748f965774cefe6db397b4fc5537c422c2f488740efc21132050f4c4`. New size: 89,627
+bytes (87.5 KiB, displayed "88 KB").
+
 ### 2026-08-05 — silent-crash fix for "run from inside the ZIP" + troubleshooting update (SHA changed)
 Root cause found and reproduced deterministically (see repo `PROJECT_TIMELINE.md`): if a user
 opens `qualtrics_backup_shiny.zip` in Windows Explorer and double-clicks `Run Me (Windows).cmd`
