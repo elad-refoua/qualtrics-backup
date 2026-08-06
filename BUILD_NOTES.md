@@ -101,6 +101,39 @@ pure-CSS details/summary); 07 English quick summary; bottom CTA; footer.
 
 ## Changelog
 
+### 2026-08-05 (4) — proactive audit: 2 more silent-failure gaps of the same class, fixed (SHA changed)
+Per Elad, ran a targeted audit (reality-check skill, scoped by hand to R idioms) of `app.R` +
+`qualtrics_backup.R` for the SAME bug class as the three real-user incidents already fixed today:
+overly-optimistic assumptions about the filesystem, silent failures with no visible cause. Most of
+the codebase held up well - the Qualtrics API layer already checks HTTP status codes and fails
+loudly; the response-count metadata fetch already keeps a survey on failure rather than silently
+treating it as empty (with a logged warning), which is exactly the caution `DIAGNOSIS_2026-07-16.md`
+already established. Two real gaps found and fixed:
+
+1. **Per-survey folder creation was never checked** (`backup_one_survey()`) - unlike the
+   account-root folder (which has an explicit `dir.exists()` check added in an earlier hardening
+   pass), the per-survey folder's `dir.create()` result was ignored. A failure here (a plausible
+   trigger: Windows' 260-character MAX_PATH limit, off by default on most machines, combined with a
+   deeply-nested backup root and a long survey name) used to surface as up to 19 confusing
+   per-artifact "cannot open file" errors instead of one clear reason. Now checked and returns
+   `ok = FALSE` with one clear message - matching the function's existing return shape exactly, so
+   nothing downstream needed to change. Verified live by forcing a genuine `dir.create()` failure
+   (a file blocking the path) and confirming the new branch fires correctly. Honest note: could NOT
+   reproduce the MAX_PATH scenario itself on this dev machine (long paths appear enabled here) -
+   the defensive value of the fix (consistency + one clear message) stands regardless of the exact
+   trigger on a given user's machine.
+2. **Encryption cleanup failure was silent** (`encrypt_folder()`) - `file.remove()` on the
+   intermediate unencrypted tar was never checked. `file.remove()` returns `FALSE` (not an R error)
+   on failure, so a locked/permission-denied file would leave the log saying "Encrypted to ..."
+   while a plaintext copy of participant data sat on disk. This is the one finding with a real
+   security angle (per the repo's own security invariants). Now stops loudly with the exact both
+   paths named if cleanup fails. Verified live by locking the intermediate file open and confirming
+   the new check stops with the expected message.
+
+New SHA-256: `233e0315f6731207e257e206d8931d782cf04d771049356901a059dfd72f3b8a`. New size: 91,269
+bytes (89.1 KiB, displayed "89 KB"). No new troubleshooting rows added - these are internal
+robustness fixes, not new user-facing symptoms to search for.
+
 ### 2026-08-05 (3) — fix trailing-space folder-creation crash + audit two more free-text fields (SHA changed)
 Same real user (already past the two earlier fixes) hit a third, different failure: connected
 fine, listed her 254 surveys fine, then `FATAL: Could not create the output folder: <her folder
